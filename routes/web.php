@@ -14,3 +14,8 @@
 Route::get('/', function () {
     return view('welcome');
 });
+Route::get('vidtest', 'PostController@videoTest');
+Route::get('pictest', 'PostController@picTest');
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
