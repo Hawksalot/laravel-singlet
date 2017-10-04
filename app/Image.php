@@ -8,9 +8,7 @@ class Image extends Model
 {
     protected $fillable = [
         'hash',
-        'title',
-        'postID',
-        'userID'
+        'postID'
     ];
 
     /*
@@ -18,14 +16,6 @@ class Image extends Model
      */
     public function post()
     {
-        $this->hasMany('post', 'id', 'postID');
-    }
-
-    /*
-     * the same image can be used by multiple users
-     */
-    public function user()
-    {
-        $this->hasMany('user', 'id', 'userID');
+        $this->belongsToMany('post', 'posts', 'id', 'postID');
     }
 }
