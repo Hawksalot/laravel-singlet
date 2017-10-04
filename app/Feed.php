@@ -8,10 +8,8 @@ class Feed extends Model
 {
     protected $fillable = [
         'name',
-        //'privacy',
-        //'postID',
+        'privacy',
         //'ownerID',
-        //'subscriberID',
     ];
 
 //    public function post()

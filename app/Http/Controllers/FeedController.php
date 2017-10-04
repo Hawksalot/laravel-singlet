@@ -8,15 +8,26 @@ use App\Feed;
 
 class FeedController extends Controller
 {
-    public function testCreate(/*Request $request*/)
+    public function create(Request $request)
     {
         $feed = new Feed();
-        $feed->name = 'test'; //$request->name;
-        //$feed->privacy = false; //$request->privacy;
-        //$feed->ownerID = 1;
+        $feed->name = $request->name;
+        if($request->privacy == '1')
+        {
+            $feed->privacy = true;
+        }
+        elseif($request->privacy == '0')
+        {
+            $feed->privacy = false;
+        }
+        else
+        {
+            return 'This is a temporary error statement: Not a recognized feed type.';
+        }
+        //$feed->ownerID = $user->id;
         $feed->save();
 
-        return back()->with('createReturn', 'Feed Created');
+        return self::view($feed);//back()->with('createReturn', 'Feed Created');
     }
 
     public function view(Feed $feed)

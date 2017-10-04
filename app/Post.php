@@ -8,12 +8,8 @@ class Post extends Model
 {
     protected $fillable = [
         'type',
-        //'commentID',
         'feedID',
-        //'imageID',
         //'ownerID',
-        //'textID',
-        //'videoID',
     ];
 
     /*
@@ -33,34 +29,10 @@ class Post extends Model
     }
 
     /*
-     * a post may have 0+ images
-     */
-//    public function image()
-//    {
-//        $this->hasMany('image', 'id', 'imageID');
-//    }
-
-    /*
      * a post may have 1 owner
      */
 //    public function owner()
 //    {
 //        //
-//    }
-
-    /*
-     * a post may have 0+ texts
-     */
-//    public function text()
-//    {
-//        $this->hasMany('text', 'id', 'textID');
-//    }
-
-    /*
-     * a post may have 0+ videos
-     */
-//    public function video()
-//    {
-//        $this->hasMany('video', 'id', 'videoID');
 //    }
 }

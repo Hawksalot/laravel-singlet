@@ -11,20 +11,21 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-//Route::get('vidtest', 'PostController@videoTest');
-//Route::get('pictest', 'PostController@picTest');
-
+/*
+ * Navigation Routes
+ */
 Route::get('landing', 'NavController@landing');
 
-Route::post('feed/create', 'FeedController@testCreate');
+/*
+ * Feed Routes
+ */
+Route::post('create/feed', 'FeedController@create')->name('feedCreate');
 Route::get('feed/{feed}', 'FeedController@view');
 
-Route::post('post/create', 'PostController@testCreate');
+/*
+ * Post Routes
+ */
+Route::post('create/{feed}/post', 'PostController@create')->name('postCreate');
 Route::get('post/{post}', 'PostController@view');
 
 Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');

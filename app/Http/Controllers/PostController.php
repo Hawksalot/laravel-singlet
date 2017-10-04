@@ -5,46 +5,63 @@ namespace App\Http\Controllers;
 use App\Feed;
 use App\Image;
 use App\Post;
-use Faker\Provider\Text;
-use FFMpeg\Media\Video;
+use App\Text;
+use App\Video;
 use Illuminate\Http\Request;
 use PhpIpfs\Ipfs;
 
 class PostController extends Controller
 {
-
-    public function testCreate(Feed $feed/*Request $request*/)
+    public function create(Feed $feed, Request $request)
     {
+//        if($request->type !== 'image' || 'text' || 'video')
+//        {
+//            return 'This is a temporary error statement: that post has no recognizable type';
+//        }
         $post = new Post();
-        $post->type = 'image';// $request->type
+        $post->type = $request->type;
         $post->feedID = $feed->id;
         //$post->ownerID = $user->id;
         $post->save();
 
-        // this will be an if/else for $post->type
-        $image = new Image();
-        $image->hash = 'QmV7ydRDWq2jEVHxi4UM86tse2r94y1aK4DdTw2PgZj8kY';// $request->hash
-        $image->postID = $post->id;
-        $image->save();
-        $post->imageID = $image->id;
-        $post->save();
+        if($request->type === "image")
+        {
+            $image = new Image();
+            $image->hash = $request->hash;
+            $image->postID = $post->id;
+            $image->save();
+        }
+        elseif($request->type === "text")
+        {
+            $text = new Text();
+            $text->hash = $request->hash;
+            $text->postID = $post->id;
+            $text->save();
+        }
+        elseif($request->type === "video")
+        {
+            $video = new Video();
+            $video->hash = $request->hash;
+            $video->postID = $post->id;
+            $video->save();
+        }
 
-        return back()->with('createReturn', 'Post Created');
+        return self::view($post);
     }
 
     public function view(Post $post)
     {
         if($post->type === 'image')
         {
-            $content = Image::where('postID', $post->id);
+            $content = Image::where('postID', $post->id)->first();
         }
         elseif($post->type === 'text')
         {
-            $content = Text::where('postID', $post->id);
+            $content = Text::where('postID', $post->id)->first();
         }
         elseif($post->type === 'video')
         {
-            $content = Video::where('postID', $post->id);
+            $content = Video::where('postID', $post->id)->first();
         }
         else
         {
@@ -52,15 +69,5 @@ class PostController extends Controller
         }
 
         return view('post', compact('post', 'content'));
-    }
-
-    public function picTest()
-    {
-        return view('picTest', ['hash' => 'QmV7ydRDWq2jEVHxi4UM86tse2r94y1aK4DdTw2PgZj8kY']);
-    }
-
-    public function videoTest()
-    {
-        return view('videoTest');
     }
 }
